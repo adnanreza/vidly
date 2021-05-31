@@ -42,7 +42,7 @@ app.get('/api/genres/:id', (req, res) => {
         return res.status(404).send(validationResult.error.details[0].message);
     }
     const genre = {
-        id: genres.length() + 1,
+        id: genres.length + 1,
         name: req.body.name
     }
     genres.push(genre);
