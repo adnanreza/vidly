@@ -54,6 +54,18 @@ app.get('/api/genres/:id', (req, res) => {
  * @desc Update individual genre by id
  * @access Public
  */
+app.put('/api/genres/:id', (req, res) => {
+    const genre = genres.find(g => parseInt(req.params.id) === g.id);
+    if(!genre) return res.status(404).send('Genre with specified ID not found.');
+
+    const validationResult = validateGenre(req.body);
+    if(validationResult.error){
+        return res.status(404).send(validationResult.error.details[0].message);
+    }
+
+    genre.name = req.body.name;
+    res.send(genre);
+})
 
 /**
  * @route DELETE api/genres/:id
