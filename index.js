@@ -36,6 +36,18 @@ app.get('/api/genres/:id', (req, res) => {
  * @desc Create new genre
  * @access Public
  */
+ app.post('/api/genres', (req, res) => {
+    const validationResult = validateGenre(req.body);
+    if(validationResult.error){
+        return res.status(404).send(validationResult.error.details[0].message);
+    }
+    const genre = {
+        id: genres.length() + 1,
+        name: req.body.name
+    }
+    genres.push(genre);
+    res.send(genre);
+}) 
 
 /**
  * @route PUT api/genres/:id
@@ -48,6 +60,15 @@ app.get('/api/genres/:id', (req, res) => {
  * @desc DELETE genre by id
  * @access Public
  */
+ app.delete('/api/genres/:id', (req, res) => {
+    const genre = genres.find(g => parseInt(req.params.id) === g.id);
+    if(!genre) return res.status(404).send('Genre with specified ID not found.');
+    
+    const index = genres.indexOf(genre);
+    genres.splice(index, 1);
+
+    res.send(genre);   
+}) 
 
 /**
  * @desc Validates genre using Joi
