@@ -1,6 +1,10 @@
 const Joi = require('joi');
 const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
+
+// Load env vars
+dotenv.config({ path: './config.env' });
 
 // Use middleware that allows parsing incoming reqs with JSON payloads
 app.use(express.json());
@@ -62,7 +66,6 @@ app.get('/api/genres/:id', (req, res) => {
     if(validationResult.error){
         return res.status(404).send(validationResult.error.details[0].message);
     }
-    console.log(req.body)
     genre.name = req.body.name;
     res.send(genre);
 })
