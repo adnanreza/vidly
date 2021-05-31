@@ -54,7 +54,7 @@ app.get('/api/genres/:id', (req, res) => {
  * @desc Update individual genre by id
  * @access Public
  */
-app.put('/api/genres/:id', (req, res) => {
+ app.put('/api/genres/:id', (req, res) => {
     const genre = genres.find(g => parseInt(req.params.id) === g.id);
     if(!genre) return res.status(404).send('Genre with specified ID not found.');
 
@@ -62,7 +62,7 @@ app.put('/api/genres/:id', (req, res) => {
     if(validationResult.error){
         return res.status(404).send(validationResult.error.details[0].message);
     }
-
+    console.log(req.body)
     genre.name = req.body.name;
     res.send(genre);
 })
@@ -86,12 +86,13 @@ app.put('/api/genres/:id', (req, res) => {
  * @desc Validates genre using Joi
  * @return valid or invalid field
  */
-function validateGenre(genre) {
-    const schema = {
-        name: Joi.string().min(3).required()
-    }
-    return Joi.validate(genre, schema);
-}
+ function validateGenre(genre) {
+    const schema = Joi.object({
+      name: Joi.string().min(3).required()
+    });
+  
+    return schema.validate(genre);
+  }
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {console.log(`Listening on port ${port}...`)})
