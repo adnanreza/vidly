@@ -45,7 +45,6 @@ router.get('/:id', async (req, res) => {
  */
  router.post('/', async (req, res) => {
     const validationResult = validateGenre(req.body);
-    console.log(validationResult);
     if(validationResult.error){
         return res.status(400).send(validationResult.error.details[0].message);
     }
