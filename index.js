@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const app = express();
 const genres = require('./routes/genres')
 const customers = require('./routes/customers')
+const movies = require('./routes/movies')
 
 // Load env vars
 dotenv.config({ path: './config.env' });
@@ -17,7 +18,7 @@ app.use(express.json());
 // Define routes
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
-
+app.use('/api/movies', movies);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {console.log(`Listening on port ${port}...`)})

@@ -27,5 +27,6 @@ const Genre = mongoose.model('Genre', genreSchema);
     return schema.validate(genre);
   }
 
+  exports.genreSchema = genreSchema;
   exports.Genre = Genre;
   exports.validateGenre = validateGenre;
