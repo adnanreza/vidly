@@ -14,6 +14,11 @@ const auth = require('./routes/auth')
 // Load env vars
 dotenv.config({ path: './config.env' });
 
+if(!process.env.jwtPrivateKey) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined');
+    process.exit(1);
+}
+
 // Connect to db
 connectDB();
 
