@@ -26,7 +26,7 @@ const jwt = require('jsonwebtoken')
         minlength: 5,
         maxlength: 1024
     },
-    isAdmin: Boolean
+    isAdmin: Boolean,
 });
 
 userSchema.methods.generateAuthToken = function() {
