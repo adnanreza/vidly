@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth')
 const { Genre, validateGenre } = require('../models/Genre');
 const router = express.Router();
 
@@ -26,9 +27,12 @@ router.get('/:id', async (req, res) => {
 /**
  * @route POST api/genres
  * @desc Create new genre
- * @access Public
+ * @access Private
  */
- router.post('/', async (req, res) => {
+ router.post('/', auth, async (req, res) => {
+
+    
+    
     const validationResult = validateGenre(req.body);
     if(validationResult.error){
         return res.status(400).send(validationResult.error.details[0].message);
@@ -42,9 +46,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route PUT api/genres/:id
  * @desc Update individual genre by id
- * @access Public
+ * @access Private
  */
- router.put('/:id', async (req, res) => {
+ router.put('/:id', auth, async (req, res) => {
     // Validate genre before update
     const validationResult = validateGenre(req.body);
     if(validationResult.error){
@@ -61,9 +65,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route DELETE api/genres/:id
  * @desc DELETE genre by id
- * @access Public
+ * @access Private
  */
- router.delete('/:id', async (req, res) => {
+ router.delete('/:id', auth, async (req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id, { useFindAndModify: false });
     if(!genre) return res.status(404).send('Genre with specified ID not found.');
 

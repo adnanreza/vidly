@@ -1,5 +1,6 @@
 const { Movie, validateMovie } = require('../models/Movie')
 const { Genre } = require('../models/Genre')
+const auth = require('../middleware/auth')
 const express = require('express');
 const router = express.Router();
 
@@ -28,9 +29,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route POST api/movies
  * @desc Create new movie
- * @access Public
+ * @access Private
  */
- router.post('/', async (req, res) => {
+ router.post('/', auth, async (req, res) => {
     const validationResult = validateMovie(req.body);
     if(validationResult.error){
         return res.status(400).send(validationResult.error.details[0].message);
@@ -56,9 +57,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route PUT api/movies/:id
  * @desc Update individual movie by id
- * @access Public
+ * @access Private
  */
- router.put('/:id', async (req, res) => {
+ router.put('/:id', auth, async (req, res) => {
     // Validate movie before update
     const validationResult = validateMovie(req.body);
     if(validationResult.error){
@@ -91,9 +92,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route DELETE api/movies/:id
  * @desc DELETE movie by id
- * @access Public
+ * @access Private
  */
- router.delete('/:id', async (req, res) => {
+ router.delete('/:id', auth, async (req, res) => {
     const movie = await Movie.findByIdAndRemove(req.params.id, { useFindAndModify: false });
     if(!movie) return res.status(404).send('Movie with specified ID not found.');
 

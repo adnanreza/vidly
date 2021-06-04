@@ -1,4 +1,5 @@
 const { Customer, validateCustomer } = require('../models/Customer')
+const auth = require('../middleware/auth')
 const express = require('express');
 const router = express.Router();
 
@@ -27,9 +28,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route POST api/customers
  * @desc Create new customer
- * @access Public
+ * @access Private
  */
- router.post('/', async (req, res) => {
+ router.post('/', auth, async (req, res) => {
     const validationResult = validateCustomer(req.body);
     if(validationResult.error){
         return res.status(400).send(validationResult.error.details[0].message);
@@ -47,9 +48,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route PUT api/customers/:id
  * @desc Update individual customer by id
- * @access Public
+ * @access Private
  */
- router.put('/:id', async (req, res) => {
+ router.put('/:id', auth, async (req, res) => {
     // Validate customer before update
     const validationResult = validateCustomer(req.body);
     if(validationResult.error){
@@ -75,9 +76,9 @@ router.get('/:id', async (req, res) => {
 /**
  * @route DELETE api/customers/:id
  * @desc DELETE customer by id
- * @access Public
+ * @access Private
  */
- router.delete('/:id', async (req, res) => {
+ router.delete('/:id', auth, async (req, res) => {
     const customer = await Customer.findByIdAndRemove(req.params.id, { useFindAndModify: false });
     if(!customer) return res.status(404).send('Customer with specified ID not found.');
 

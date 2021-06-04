@@ -1,6 +1,7 @@
 const { Rental, validateRental } = require('../models/Rental')
 const { Movie } = require('../models/Movie');
 const { Customer } = require('../models/Customer');
+const auth = require('../middleware/auth')
 const Fawn = require('fawn');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -21,9 +22,9 @@ router.get('/', async (req, res) => {
 /**
  * @route POST api/rentals
  * @desc Create new rental
- * @access Public
+ * @access Private
  */
- router.post('/', async (req, res) => {
+ router.post('/', auth, async (req, res) => {
     const validationResult = validateRental(req.body);
     if(validationResult.error){
         return res.status(400).send(validationResult.error.details[0].message);
