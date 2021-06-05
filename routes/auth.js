@@ -7,7 +7,7 @@ const router = express.Router();
 
 /**
  * @route POST api/auth
- * @desc Create new user
+ * @desc Login user
  * @access Public
  */
 router.post('/', async (req, res) => {
